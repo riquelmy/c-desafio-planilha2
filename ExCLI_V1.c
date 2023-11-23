@@ -20,6 +20,281 @@ void escreverLinha(FILE *arquivo, const char *linha) {
     fprintf(arquivo, "%s\n", linha);
 }
 
+/*--------------------------------Veiculos(header)-------------------------------------*/
+int lerRowVeiculo(FILE *arquivo, char *linha, int max_len) {
+    if (fgets(linha, max_len, arquivo) == NULL) {
+        return 0; // Falha ao ler a linha
+    }
+    /* Remove o caractere de nova linha se presente */
+    char *nl = strchr(linha, '\n');
+    if (nl != NULL) {
+        *nl = '\0';
+    }
+    return 1; /* Leitura bem-sucedida */
+}
+void escreverRowVeiculo(FILE *arquivo, const char *linha) {
+    fprintf(arquivo, "%s\n", linha);
+}
+int excluirVeiculo() {
+   int MAX_LEN = 100;
+    FILE *arquivo = fopen("tabela_veiculos.csv", "r+");
+
+    if (arquivo == NULL) {
+        fprintf(stderr, "Erro ao abrir o arquivo.\n");
+        return 1;
+    }
+
+    // Lê todas as linhas do arquivo
+    char linhas[MAX_LEN][MAX_LEN];
+    int numLinhas = 0;
+
+    while (lerRowVeiculo(arquivo, linhas[numLinhas], MAX_LEN) && numLinhas < MAX_LEN) {
+        numLinhas++;
+    }
+
+    // Fecha o arquivo antes de reabri-lo para escrita
+    fclose(arquivo);
+    arquivo = fopen("tabela_veiculos.csv", "w");
+
+    // Verifica se o arquivo foi aberto com sucesso
+    if (arquivo == NULL) {
+        fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
+        return 1;
+    }
+
+    // Imprime o conteúdo atual do arquivo
+    for (int i = 0; i < numLinhas; i++) {
+        printf("%d: %s\n", i + 1, linhas[i]);
+    }
+
+    // Solicita ao usuário selecionar uma linha para deletar
+    int linhaSelecionada;
+    printf("Digite o número da linha que deseja deletar: ");
+    scanf("%d", &linhaSelecionada);
+
+    if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+        fprintf(stderr, "Linha inválida.\n");
+        return 1;
+    }
+
+    // Copia as linhas que não precisam ser excluídas
+    for (int i = 0, j = 0; i < numLinhas; i++) {
+        if (i != linhaSelecionada - 1) {
+            strcpy(linhas[j], linhas[i]);
+            j++;
+        }
+    }
+
+    // Atualiza o número de linhas
+    numLinhas--;
+
+    // Escreve todas as linhas restantes no arquivo
+    for (int i = 0; i < numLinhas; i++) {
+        escreverRowVeiculo(arquivo, linhas[i]);
+    }
+
+    // Fecha o arquivo
+    fclose(arquivo);
+
+    printf("Linha deletada com sucesso do arquivo tabela_veiculos.csv.\n");
+
+    return 0;
+}
+int novaEdicaoVeiculo() {
+
+   int j;
+   int MAX_LEN = 100;
+    FILE *arquivo = fopen("tabela_veiculos.csv", "r+");
+
+    if (arquivo == NULL) {
+        fprintf(stderr, "Erro ao abrir o arquivo.\n");
+        return 1;
+    }
+
+    /* Lê todas as linhas do arquivo*/
+    char linhas[MAX_LEN][MAX_LEN];
+    int numLinhas = 0;
+
+    while (lerRowVeiculo(arquivo, linhas[numLinhas], MAX_LEN) && numLinhas < MAX_LEN) {
+        numLinhas++;
+    }
+
+    /* Fecha o arquivo antes de reabri-lo para escrita*/
+    fclose(arquivo);
+    arquivo = fopen("tabela_veiculos.csv", "w");
+
+    // Verifica se o arquivo foi aberto com sucesso
+    if (arquivo == NULL) {
+        fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
+        return 1;
+    }
+
+    // Imprime o conteúdo atual do arquivo
+    for (int i = 0; i < numLinhas; i++) {
+        printf("%d: %s\n", i + 1, linhas[i]);
+    }
+
+    // Solicita ao usuário selecionar uma linha
+    int linhaSelecionada;
+    printf("Digite o número da linha que deseja modificar: ");
+    scanf("%d", &linhaSelecionada);
+
+    if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+        fprintf(stderr, "Linha inválida.\n");
+        return 1;
+    }
+
+    // Solicita ao usuário novos valores para os campos
+   char novaPlaca[MAX_LEN], novoModelo[MAX_LEN], novoResponsavel[MAX_LEN];
+   printf("Digite a nova placa: ");
+   scanf("%s", novaPlaca);
+   printf("Digite o novo modelo: ");
+   scanf("%s", novoModelo);
+   // printf("Digite o novo responsável: ");
+   // scanf("%s", novoResponsavel);
+
+   printf("Digite o novo responsável: ");
+    fgets(novoResponsavel, 50, stdin);
+    fgets(novoResponsavel, 50, stdin);
+    for (j=0; novoResponsavel[j]!='\0';j++) {;}
+    novoResponsavel[j-1]='\0';
+
+    // Modifica a linha selecionada com os novos valores
+    strcpy(linhas[linhaSelecionada - 1], "");  // Limpa a linha anterior
+    sprintf(linhas[linhaSelecionada - 1], "%s,%s,%s", novaPlaca, novoModelo, novoResponsavel);
+
+    // Escreve todas as linhas modificadas de volta no arquivo
+    for (int i = 0; i < numLinhas; i++) {
+        escreverRowVeiculo(arquivo, linhas[i]);
+    }
+
+    // Fecha o arquivo
+    fclose(arquivo);
+
+    printf("Dados modificados com sucesso no arquivo tabela_veiculos.csv.\n");
+
+    return 0;
+}
+/*Função para adicionar as linhas*/
+int adicionarVec() {
+   int i;
+   char placa[50];
+   char modelo[50];
+   char responsavel[50];
+
+    FILE *arquivo = fopen("tabela_veiculos.csv", "a"); 
+
+
+   /*Caso o arquivo não seja aberto, retorna o erro abaixo*/
+    if (arquivo == NULL) {
+        fprintf(stderr, "Não foi possível acessar o banco de dados!\n");
+        return 1; 
+    }
+
+
+
+   printf("Digite a placa: ");
+   fgets(placa, 50, stdin);
+   fgets(placa, 50, stdin);
+   for(i=0;placa[i]!='\0';i++);
+   placa[i-1]='\0';
+
+   printf("Digite o modelo: ");
+   fgets(modelo, 50, stdin);
+   for(i=0;modelo[i]!='\0';i++) ;
+   modelo[i-1]='\0';
+
+
+   printf("Digite o responsável: ");
+   fgets(responsavel, 50, stdin);
+   for(i=0;responsavel[i]!='\0';i++) ;
+   responsavel[i-1]='\0';
+
+
+
+
+    fprintf(arquivo, "%s, %s, %s\n", placa, modelo, responsavel);
+
+    fclose(arquivo);
+
+    printf("Veículo da placa %s foi adicionado ao banco de dados!\n", placa);
+
+}
+/*Aqui embaixo fica a função para contar quantas linhas tem a tabela, incluindo a linha do ID, CPF e X e uma linha nula*/
+/*É uma cópia de consultarCadaVec(), mas sem os outputs, apenas para contar as linhas da tabela.*/
+int contarVeiculo(void) {
+   char buffer[1000];
+   char *datax;
+   int i = 0;
+   char stop_reason;
+
+   FILE *statsFile= fopen("tabela_veiculos.csv", "r");
+   if (statsFile==NULL) {
+      exit(-1);
+   }
+   
+	while (i<1000) {
+   fgets(buffer, sizeof(buffer), statsFile);
+
+   datax = strtok(buffer, ",");
+   datax = strtok(NULL, ",");
+   datax = strtok(NULL, ",");
+	i++;
+	if (datax==NULL) {break;}
+	}
+   return i;
+	}
+
+int consultarCadaVec(void) {
+   char buffer[1000];
+   char *datax; /*Aqui é um ponteiro*/
+   int i = 0;
+   int iRetornado = contarVeiculo(); /*Esse é o iRetornado, ou seja, a quantidade de linhas da função contarVeiculo. Com ela, podemos saber quantas linhas têm logo de cara.*/
+   char stop_reason;
+   printf("\n======================\n");
+   printf("Tabela dos Veículos!\n");
+
+   /*Essa parte é capaz de ler um determinado arquivo .csv. Se o arquivo não existir (tiver com o nome errado), ele retorna que não conseguiu abrir.*/
+   FILE *statsFile= fopen("tabela_veiculos.csv", "r");
+   if (statsFile==NULL) {
+      printf("Error: could not open file!");
+      exit(-1);
+   }
+
+   /*Esse while é pra imprimir cada linha da planilha, incluindo ID, CPF e X. O valor nulo n é impresso porque tira-se -1 do iRetornado.*/   
+	while (i<iRetornado-1) {
+	/*O fgets vai ler a primeira linha do buffer*/
+   fgets(buffer, sizeof(buffer), statsFile);
+
+   /*strtok que retorna o array de caracteres em token, com o delimitador sendo o "," do .CSV. Esse valor depois é armazenado no ponteiro datax.*/
+
+   datax = strtok(buffer, ",");
+
+   printf(" %s | ", datax);
+
+   /*O bufferr já foi pego, então para imprimir os próximos valores coloca-se o NULL no primeiro argumento*/
+   datax = strtok(NULL, ",");
+   
+   printf(" %s | ", datax);
+   datax = strtok(NULL, ",");
+
+   printf(" %s ", datax);
+
+
+   /*i era um contadorzinho que havia colocado pra terminar o while. Como ajuda, vou deixar aí.*/
+	i++;
+
+   /*datax==NULL com o break é pra terminar o while caso seja encontrado uma linha nula (vazia)*/
+	/* if (datax==NULL) {break;}*/
+	}
+   printf("\nTotal de linhas na tabela: %d\n", iRetornado-2);
+   
+
+	}
+
+/*--------------------------------Veiculos(footer)-------------------------------------*/
+
+
 
 
 int deletarColaborador() {
@@ -352,6 +627,24 @@ int main(void) {
             system("cls");
             deletarColaborador();
             break;
+         case 11:
+            system("cls");
+            consultarCadaVec();
+            break;
+         case 22:
+            system("cls");
+            adicionarVec();
+            break;
+         case 33:
+            system("cls");
+            novaEdicaoVeiculo(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
+            break;
+         case 44:
+            system("cls");
+            excluirVeiculo();
+            break;
+
+
          default:
             system("cls");
             printf("A opção em questão não está programada em nosso sistema! Digite outra alternativa\n");

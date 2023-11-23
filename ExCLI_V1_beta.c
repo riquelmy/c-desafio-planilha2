@@ -4,67 +4,83 @@
 #include <locale.h>
 /*Colfrot ExCLI*/
 
-
-
-
-/*start*/
-void deleteAll() {
-    // Declaração de ponteiros para arquivos e variáveis
+/*funções de delete - início - implementação de william e kelvin*/
+void deleteAllWorkers() {
     FILE *inputFile, *outputFile;
     char line[1024];
     int lines = 0;
 
-    // Abre o arquivo de entrada "planilha.csv" para leitura
-    inputFile = fopen("planilha.csv", "r");
-    // Abre o arquivo de saída "planilha_saida.csv" para escrita
+    inputFile = fopen("tabela_colaboradores.csv", "r");
     outputFile = fopen("planilha_saida.csv", "w");
 
-    // Verifica se houve erro na abertura de algum dos arquivos
     if (inputFile == NULL || outputFile == NULL) {
-        // Imprime uma mensagem de erro detalhada e encerra o programa em caso de falha
         perror("Erro ao abrir os arquivos CSV para exclusão");
         exit(EXIT_FAILURE);
     }
 
-    // Lê cada linha do arquivo de entrada
     while (fgets(line, sizeof(line), inputFile) != NULL) {
         lines++;
 
-        // Se é a primeira linha, copia para o arquivo de saída
         if (lines == 1) {
             fprintf(outputFile, "%s", line);
         }
     }
 
-    // Fecha os arquivos
     fclose(inputFile);
     fclose(outputFile);
 
-    // Remove o arquivo original
-    if (remove("planilha.csv") != 0) {
-        // Imprime uma mensagem de erro detalhada e encerra o programa em caso de falha
+    if (remove("tabela_colaboradores.csv") != 0) {
         perror("Erro ao remover o arquivo original");
         exit(EXIT_FAILURE);
     }
 
-    // Renomeia o arquivo de saída para o nome original
-    if (rename("planilha_saida.csv", "planilha.csv") != 0) {
-        // Imprime uma mensagem de erro detalhada e encerra o programa em caso de falha
+    if (rename("planilha_saida.csv", "tabela_colaboradores.csv") != 0) {
         perror("Erro ao renomear o arquivo de saída");
         exit(EXIT_FAILURE);
     }
 
-    // Exibe mensagem de sucesso
     printf("Todos os dados, exceto cabeçalhos, foram apagados com sucesso.\n");
-    // Aguarda a entrada do usuário antes de encerrar o programa
     getchar();
 }
 
-/*end*/
+void delAllVehicles() {
+    FILE *inputFile, *outputFile;
+    char line[1024];
+    int lines = 0;
 
+    inputFile = fopen("tabela_veiculos.csv", "r");
+    outputFile = fopen("planilha_saida.csv", "w");
 
+    if (inputFile == NULL || outputFile == NULL) {
+        perror("Erro ao abrir os arquivos CSV para exclusão");
+        exit(EXIT_FAILURE);
+    }
 
+    while (fgets(line, sizeof(line), inputFile) != NULL) {
+        lines++;
 
+        if (lines == 1) {
+            fprintf(outputFile, "%s", line);
+        }
+    }
+
+    fclose(inputFile);
+    fclose(outputFile);
+
+    if (remove("tabela_veiculos.csv") != 0) {
+        perror("Erro ao remover o arquivo original");
+        exit(EXIT_FAILURE);
+    }
+
+    if (rename("planilha_saida.csv", "tabela_veiculos.csv") != 0) {
+        perror("Erro ao renomear o arquivo de saída");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Todos os dados, exceto cabeçalhos, foram apagados com sucesso.\n");
+    getchar();
+}
+/*funções de delete - fim - implementação de william e kelvin*/
 /*----------------------Colaboradores(header)----------------------*/
 int lerLinha(FILE *arquivo, char *linha, int max_len) {/*Função que lê cada linha, faz o processamento estabelecido, mas não imprime para o usuário o resultado do mesmo.*/
     if (fgets(linha, max_len, arquivo) == NULL) {
@@ -685,7 +701,14 @@ int main(void) {
             system("cls");
             excluirVeiculo();
             break;
-
+        case 5:
+            system("cls");
+            deleteAllWorkers();
+            break;
+        case 55:
+            system("cls");
+            delAllVehicles();
+            break;
 
          default:
             system("cls");

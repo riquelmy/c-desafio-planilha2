@@ -4,38 +4,38 @@
 #include <locale.h>
 /*Colfrot ExCLI*/
 
-int lerLinha(FILE *arquivo, char *linha, int max_len) {
+int lerLinha(FILE *arquivo, char *linha, int max_len) {/*Função que lê cada linha, faz o processamento estabelecido, mas não imprime para o usuário o resultado do mesmo.*/
     if (fgets(linha, max_len, arquivo) == NULL) {
-        return 0; // Falha ao ler a linha
+        return 0; /*Essa parte é pra lidar com a falha, caso a linha não seja lida*/
     }
-    /* Remove o caractere de nova linha se presente */
+    /* strchr procura a primeira ocorrência de um determinado caractere, e aí eu troco o '\n' por '\0'.
+    Eu faço a implementação dessa função manualmente, sem o uso de strchr, em outra parte do código */
     char *nl = strchr(linha, '\n');
     if (nl != NULL) {
         *nl = '\0';
     }
-    return 1; /* Leitura bem-sucedida */
+    return 1; /* retorna 1 caso a leitura dê certo */
 }
 
 void escreverLinha(FILE *arquivo, const char *linha) {
-    fprintf(arquivo, "%s\n", linha);
+    fprintf(arquivo, "%s\n", linha); 
 }
 
 /*--------------------------------Veiculos(header)-------------------------------------*/
-int lerRowVeiculo(FILE *arquivo, char *linha, int max_len) {
+int lerRowVeiculo(FILE *arquivo, char *linha, int max_len) { /*réplica -> ver lerLinha()*/
     if (fgets(linha, max_len, arquivo) == NULL) {
-        return 0; // Falha ao ler a linha
+        return 0; 
     }
-    /* Remove o caractere de nova linha se presente */
     char *nl = strchr(linha, '\n');
     if (nl != NULL) {
         *nl = '\0';
     }
-    return 1; /* Leitura bem-sucedida */
+    return 1;
 }
-void escreverRowVeiculo(FILE *arquivo, const char *linha) {
+void escreverRowVeiculo(FILE *arquivo, const char *linha) { /*réplica -> escreverRowVeiculo()*/
     fprintf(arquivo, "%s\n", linha);
 }
-int excluirVeiculo() {
+int excluirVeiculo() {/*réplica -> deletarColaborador()*/
    int MAX_LEN = 100;
     FILE *arquivo = fopen("tabela_veiculos.csv", "r+");
 
@@ -44,7 +44,6 @@ int excluirVeiculo() {
         return 1;
     }
 
-    // Lê todas as linhas do arquivo
     char linhas[MAX_LEN][MAX_LEN];
     int numLinhas = 0;
 
@@ -52,22 +51,18 @@ int excluirVeiculo() {
         numLinhas++;
     }
 
-    // Fecha o arquivo antes de reabri-lo para escrita
     fclose(arquivo);
     arquivo = fopen("tabela_veiculos.csv", "w");
 
-    // Verifica se o arquivo foi aberto com sucesso
     if (arquivo == NULL) {
         fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
         return 1;
     }
 
-    // Imprime o conteúdo atual do arquivo
     for (int i = 0; i < numLinhas; i++) {
         printf("%d: %s\n", i + 1, linhas[i]);
     }
 
-    // Solicita ao usuário selecionar uma linha para deletar
     int linhaSelecionada;
     printf("Digite o número da linha que deseja deletar: ");
     scanf("%d", &linhaSelecionada);
@@ -77,7 +72,6 @@ int excluirVeiculo() {
         return 1;
     }
 
-    // Copia as linhas que não precisam ser excluídas
     for (int i = 0, j = 0; i < numLinhas; i++) {
         if (i != linhaSelecionada - 1) {
             strcpy(linhas[j], linhas[i]);
@@ -85,15 +79,12 @@ int excluirVeiculo() {
         }
     }
 
-    // Atualiza o número de linhas
     numLinhas--;
 
-    // Escreve todas as linhas restantes no arquivo
     for (int i = 0; i < numLinhas; i++) {
         escreverRowVeiculo(arquivo, linhas[i]);
     }
 
-    // Fecha o arquivo
     fclose(arquivo);
 
     printf("Linha deletada com sucesso do arquivo tabela_veiculos.csv.\n");
@@ -175,7 +166,6 @@ int novaEdicaoVeiculo() {
 
     return 0;
 }
-/*Função para adicionar as linhas*/
 int adicionarVec() {
    int i;
    char placa[50];
@@ -220,8 +210,6 @@ int adicionarVec() {
     printf("Veículo da placa %s foi adicionado ao banco de dados!\n", placa);
 
 }
-/*Aqui embaixo fica a função para contar quantas linhas tem a tabela, incluindo a linha do ID, CPF e X e uma linha nula*/
-/*É uma cópia de consultarCadaVec(), mas sem os outputs, apenas para contar as linhas da tabela.*/
 int contarVeiculo(void) {
    char buffer[1000];
    char *datax;
@@ -306,7 +294,7 @@ int deletarColaborador() {
         return 1;
     }
 
-    // Lê todas as linhas do arquivo
+    /*Conta todas as linhas do arquivo*/
     char linhas[MAX_LEN][MAX_LEN];
     int numLinhas = 0;
 
@@ -314,22 +302,22 @@ int deletarColaborador() {
         numLinhas++;
     }
 
-    // Fecha o arquivo antes de reabri-lo para escrita
+    /*depois de lido, fecha e abre ele novamente, só que em modo escrita (w), não modo leitura (r)*/
     fclose(arquivo);
     arquivo = fopen("tabela_colaboradores.csv", "w");
 
-    // Verifica se o arquivo foi aberto com sucesso
+    /*Trecho para verificar se foi aberto com sucesso, em modo escrita*/
     if (arquivo == NULL) {
         fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
         return 1;
     }
 
-    // Imprime o conteúdo atual do arquivo
+    /*output do conteúdo da tabela*/
     for (int i = 0; i < numLinhas; i++) {
         printf("%d: %s\n", i + 1, linhas[i]);
     }
 
-    // Solicita ao usuário selecionar uma linha para deletar
+    /*entrada int para deletar uma linha. as outras funções tem estrutura parecida.*/
     int linhaSelecionada;
     printf("Digite o número da linha que deseja deletar: ");
     scanf("%d", &linhaSelecionada);
@@ -339,7 +327,7 @@ int deletarColaborador() {
         return 1;
     }
 
-    // Copia as linhas que não precisam ser excluídas
+    /*Depois copia as linhas que não precisam ser excluidas para o array bidimensional linhas*/
     for (int i = 0, j = 0; i < numLinhas; i++) {
         if (i != linhaSelecionada - 1) {
             strcpy(linhas[j], linhas[i]);
@@ -347,15 +335,15 @@ int deletarColaborador() {
         }
     }
 
-    // Atualiza o número de linhas
+   /*atualiza o total de linhas da plannilha*/
     numLinhas--;
 
-    // Escreve todas as linhas restantes no arquivo
+    /*pega o array de caracteres linhas, dá um parse em cada linha salva e escreve no arquivo a mesma*/
     for (int i = 0; i < numLinhas; i++) {
         escreverLinha(arquivo, linhas[i]);
     }
 
-    // Fecha o arquivo
+    /*fecha a planilha*/
     fclose(arquivo);
 
     printf("Linha deletada com sucesso do arquivo tabela_colaboradores.csv.\n");
@@ -386,18 +374,18 @@ int novaEdicao() {
     fclose(arquivo);
     arquivo = fopen("tabela_colaboradores.csv", "w");
 
-    // Verifica se o arquivo foi aberto com sucesso
+    /*Explicado anteriormente*/
     if (arquivo == NULL) {
         fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
         return 1;
     }
 
-    // Imprime o conteúdo atual do arquivo
+    /*Explicado anteriormente*/
     for (int i = 0; i < numLinhas; i++) {
         printf("%d: %s\n", i + 1, linhas[i]);
     }
 
-    // Solicita ao usuário selecionar uma linha
+    /*Explicado anteriormente*/
     int linhaSelecionada;
     printf("Digite o número da linha que deseja modificar: ");
     scanf("%d", &linhaSelecionada);
@@ -407,7 +395,7 @@ int novaEdicao() {
         return 1;
     }
 
-    // Solicita ao usuário novos valores para os campos
+    /*aqui a gente utiliza o scanf para pegar as novas strings/arrays de caracteres, mas o ideal seria o fgets*/
     char novoNome[MAX_LEN], novaFuncao[MAX_LEN], novoId[MAX_LEN], novaIdade[MAX_LEN];
     printf("Digite o novo nome: ");
     scanf("%s", novoNome);
@@ -418,16 +406,17 @@ int novaEdicao() {
     printf("Digite nova idade: ");
     scanf("%s", novaIdade);
 
-    // Modifica a linha selecionada com os novos valores
-    strcpy(linhas[linhaSelecionada - 1], "");  // Limpa a linha anterior
-    sprintf(linhas[linhaSelecionada - 1], "%s,%s,%s,%s", novoId, novoNome, novaIdade, novaFuncao);
+   
+    strcpy(linhas[linhaSelecionada - 1], "");  /*limpar a linha anterior, é preciso tomar muito cuidado para não interromper aqui o processo na hora de editar. se não, limpa toda a tabela, e aí tem que pegar do backup*/
 
-    // Escreve todas as linhas modificadas de volta no arquivo
+    sprintf(linhas[linhaSelecionada - 1], "%s,%s,%s,%s", novoId, novoNome, novaIdade, novaFuncao);  /*modofica a linha selecionada com os novos valores nos arrays de caracteres*/
+
+    /*Escreve todas as linhas modificadas de linhas no arquivo*/
     for (int i = 0; i < numLinhas; i++) {
         escreverLinha(arquivo, linhas[i]);
     }
 
-    // Fecha o arquivo
+    /*explicado anteriormente*/
     fclose(arquivo);
 
     printf("Dados modificados com sucesso no arquivo tabela_colaboradores.csv.\n");

@@ -1013,6 +1013,9 @@ int main(void) {
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf(" ______________________________________\n");
     printf("Γ__________Tela de boas-vindas_________ꓶ\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+    
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf("\nAdministrador(a) autenticado com sucesso!!\n");
     printf("Seja bem-vindo sistema de consulta SIOS!\n\n");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão

@@ -762,7 +762,7 @@ void exibirAjuda() {
     };
 
     const char *presentationText[] = {
-        "Bem-vindo à seção de ajuda do sistema de consulta ABC!\n",
+        "Bem-vindo à seção de ajuda do sistema de consulta SIOS!\n",
         "Aqui, você encontrará informações detalhadas sobre as principais operações disponíveis\n", 
         "para gerenciar os perfis de nossos caminhoneiros colaboradores e veículos de entrega.\n",
         "\n",
@@ -1012,7 +1012,8 @@ int main(void) {
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf(" ______________________________________\n");
     printf("Γ__________Tela de boas-vindas_________ꓶ\n");
-    printf("\nAdministrador(a) autenticado com sucesso!!\n\n");
+    printf("\nAdministrador(a) autenticado com sucesso!!\n");
+    printf("Seja bem-vindo sistema de consulta SIOS!\n\n");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     
     int num, subOpcao;

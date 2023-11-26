@@ -941,6 +941,7 @@ void SwitchDeOpcoes(int subOpcao, int programaFuncionando) {
         case -1:
             system("cls");
             autenticarAcesso();
+            system("cls");
             break;
         case 0: 
             programaFuncionando = !programaFuncionando;

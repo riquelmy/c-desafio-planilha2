@@ -6,6 +6,11 @@
 
 #define MAX_LEN 100
 
+int color (int color){
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, color);
+}
+
 /*funções de delete - início - implementação de william e kelvin*/
 void deleteAllWorkers() {
     FILE *inputFile, *outputFile;
@@ -16,7 +21,9 @@ void deleteAllWorkers() {
     outputFile = fopen("planilha_saida.csv", "w");
 
     if (inputFile == NULL || outputFile == NULL) {
+        color(FOREGROUND_RED);
         perror("Erro ao abrir os arquivos CSV para exclusão");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         exit(EXIT_FAILURE);
     }
 
@@ -32,16 +39,22 @@ void deleteAllWorkers() {
     fclose(outputFile);
 
     if (remove("tabela_colaboradores.csv") != 0) {
+        color(FOREGROUND_RED);
         perror("Erro ao remover o arquivo original");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         exit(EXIT_FAILURE);
     }
 
     if (rename("planilha_saida.csv", "tabela_colaboradores.csv") != 0) {
+        color(FOREGROUND_RED);
         perror("Erro ao renomear o arquivo de saída");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         exit(EXIT_FAILURE);
     }
 
+    color(FOREGROUND_GREEN);
     printf("Todos os dados, exceto cabeçalhos, foram apagados com sucesso.\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     getchar();
 }
 
@@ -54,7 +67,9 @@ void delAllVehicles() {
     outputFile = fopen("planilha_saida.csv", "w");
 
     if (inputFile == NULL || outputFile == NULL) {
+        color(FOREGROUND_RED);
         perror("Erro ao abrir os arquivos CSV para exclusão");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         exit(EXIT_FAILURE);
     }
 
@@ -70,16 +85,22 @@ void delAllVehicles() {
     fclose(outputFile);
 
     if (remove("tabela_veiculos.csv") != 0) {
+        color(FOREGROUND_RED);
         perror("Erro ao remover o arquivo original");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         exit(EXIT_FAILURE);
     }
 
     if (rename("planilha_saida.csv", "tabela_veiculos.csv") != 0) {
+        color(FOREGROUND_RED);
         perror("Erro ao renomear o arquivo de saída");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         exit(EXIT_FAILURE);
     }
 
+    color(FOREGROUND_GREEN);
     printf("Todos os dados, exceto cabeçalhos, foram apagados com sucesso.\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     getchar();
 }
 /*funções de delete - fim - implementação de william e kelvin*/
@@ -107,7 +128,9 @@ void escreverLinha(FILE *arquivo, const char *linha) {
 int deletarColaborador() {
     FILE *arquivo = fopen("tabela_colaboradores.csv", "r+");
     if (arquivo == NULL) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -125,7 +148,9 @@ int deletarColaborador() {
 
     /*Trecho para verificar se foi aberto com sucesso, em modo escrita*/
     if (arquivo == NULL) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -136,11 +161,15 @@ int deletarColaborador() {
 
     /*entrada int para deletar uma linha. as outras funções tem estrutura parecida.*/
     int linhaSelecionada;
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o número da linha que deseja deletar: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
 
     if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Linha inválida.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -162,7 +191,10 @@ int deletarColaborador() {
 
     /*fecha a planilha*/
     fclose(arquivo);
+
+    color(FOREGROUND_GREEN);
     printf("Linha deletada com sucesso do arquivo tabela_colaboradores.csv.\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
     return 0;
 }
@@ -170,7 +202,9 @@ int deletarColaborador() {
 int novaEdicao() {
     FILE *arquivo = fopen("tabela_colaboradores.csv", "r+");
     if (arquivo == NULL) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -188,7 +222,9 @@ int novaEdicao() {
 
     /*Explicado anteriormente*/
     if (arquivo == NULL) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -199,26 +235,38 @@ int novaEdicao() {
 
     /*Explicado anteriormente*/
     int linhaSelecionada;
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o número da linha que deseja modificar: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
 
     if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Linha inválida.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
     /*aqui a gente utiliza o scanf para pegar as novas strings/arrays de caracteres, mas o ideal seria o fgets*/
     char novoNome[MAX_LEN], novaFuncao[MAX_LEN], novoId[MAX_LEN], novaIdade[MAX_LEN];
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o novo nome: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%s", novoNome);
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite a nova função: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%s", novaFuncao);
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite novo id: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%s", novoId);
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite nova idade: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%s", novaIdade);
 
    /*limpar a linha anterior, é preciso tomar muito cuidado para não interromper aqui o processo na hora de editar. se não, limpa toda a tabela, e aí tem que pegar do backup*/
@@ -234,7 +282,10 @@ int novaEdicao() {
 
     /*explicado anteriormente*/
     fclose(arquivo);
+
+    color(FOREGROUND_GREEN); // Volta para a cor padrão
     printf("Dados modificados com sucesso no arquivo tabela_colaboradores.csv.\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
     return 0;
 }
@@ -250,33 +301,45 @@ int adicionarFunc() {
     FILE *arquivo = fopen("tabela_colaboradores.csv", "a"); 
     /*Caso o arquivo não seja aberto, retorna o erro abaixo*/
     if (arquivo == NULL) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Não foi possível acessar o banco de dados!\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1; 
     }
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o nome: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     fgets(nome, 50, stdin);
     fgets(nome, 50, stdin);
 
     for(i=0;nome[i]!='\0';i++) ;
     nome[i-1]='\0';
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite a função: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     fgets(funcao, 50, stdin);
 
     for(i=0;funcao[i]!='\0';i++) ;
     funcao[i-1]='\0';
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o id: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &id);
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite a idade: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &idade);
 
     fprintf(arquivo, "%d,%s,%d,%s\n", id, nome, idade, funcao);
 
+    color(FOREGROUND_GREEN);
     fclose(arquivo);
     printf("%s foi adicionado(a) no banco de dados!\n", nome);
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 }
 
 int contarconsulta(void) {
@@ -311,18 +374,23 @@ int consulta(void) {
     int iRetornado = contarconsulta(); /*Esse é o iRetornado, ou seja, a quantidade de linhas da função contarconsulta. Com ela, podemos saber quantas linhas têm logo de cara.*/
     char stop_reason;
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf(" ________________________________________\n");
     printf("[__________Tela de Colaboradores_________]\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
     /*Essa parte é capaz de ler um determinado arquivo .csv. Se o arquivo não existir (tiver com o nome errado), ele retorna que não conseguiu abrir.*/
     FILE *statsFile= fopen("tabela_colaboradores.csv", "r");
     if (statsFile==NULL) {
-      printf("Error: could not open file!");
-      exit(-1);
+        color(FOREGROUND_RED);
+        printf("Error: could not open file!");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+        exit(-1);
     }
 
     /*Esse while é pra imprimir cada linha da planilha, incluindo ID, CPF e X. O valor nulo n é impresso porque tira-se -1 do iRetornado.*/   
 	while (i<iRetornado-1) {
+        color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 	    /*O fgets vai ler a primeira linha do buffer*/
         fgets(buffer, sizeof(buffer), statsFile);
 
@@ -344,10 +412,11 @@ int consulta(void) {
         /*datax==NULL com o break é pra terminar o while caso seja encontrado uma linha nula (vazia)*/
         /* if (datax==NULL) {break;}*/
 	}
-    printf("\nTotal de linhas na tabela: %d\n", iRetornado-2);
-    printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n");
-   
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    printf("\nTotal de linhas na tabela: %d\n", iRetornado-2);
+    printf("___________________________________________\n\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 }			  
 
 /*----------------------Colaboradores(footer)----------------------*/
@@ -382,7 +451,9 @@ int excluirVeiculo() {
     FILE *arquivo = fopen("tabela_veiculos.csv", "r+");
 
     if (arquivo == NULL) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -397,7 +468,9 @@ int excluirVeiculo() {
     arquivo = fopen("tabela_veiculos.csv", "w");
 
     if (arquivo == NULL) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -406,11 +479,15 @@ int excluirVeiculo() {
     }
 
     int linhaSelecionada;
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o número da linha que deseja deletar: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
 
     if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Linha inválida.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -428,7 +505,9 @@ int excluirVeiculo() {
     }
 
     fclose(arquivo);
+    color(FOREGROUND_GREEN); // Volta para a cor padrão
     printf("Linha deletada com sucesso do arquivo tabela_veiculos.csv.\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
     return 0;
 }
@@ -438,7 +517,9 @@ int novaEdicaoVeiculo() {
     FILE *arquivo = fopen("tabela_veiculos.csv", "r+");
 
     if (arquivo == NULL) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -455,7 +536,9 @@ int novaEdicaoVeiculo() {
     arquivo = fopen("tabela_veiculos.csv", "w");
 
     if (arquivo == NULL) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
@@ -464,22 +547,32 @@ int novaEdicaoVeiculo() {
     }
 
     int linhaSelecionada;
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o número da linha que deseja modificar: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
 
     if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+        color(FOREGROUND_RED);
         fprintf(stderr, "Linha inválida.\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
     char novaPlaca[MAX_LEN], novoModelo[MAX_LEN], novoResponsavel[MAX_LEN];
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite a nova placa: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%s", novaPlaca);
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o novo modelo: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%s", novoModelo);
-
+    
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o novo responsável: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     fgets(novoResponsavel, 50, stdin);
     fgets(novoResponsavel, 50, stdin);
 
@@ -494,7 +587,10 @@ int novaEdicaoVeiculo() {
     }
 
     fclose(arquivo);
+
+    color(FOREGROUND_GREEN);
     printf("Dados modificados com sucesso no arquivo tabela_veiculos.csv.\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
     return 0;
 }
@@ -508,24 +604,31 @@ int adicionarVec() {
     FILE *arquivo = fopen("tabela_veiculos.csv", "a"); 
    /*Caso o arquivo não seja aberto, retorna o erro abaixo*/
     if (arquivo == NULL) {
+        color(FOREGROUND_RED); 
         fprintf(stderr, "Não foi possível acessar o banco de dados!\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1; 
     }
-
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite a placa: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     fgets(placa, 50, stdin);
     fgets(placa, 50, stdin);
 
     for(i=0;placa[i]!='\0';i++);
     placa[i-1]='\0';
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o modelo: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     fgets(modelo, 50, stdin);
 
     for(i=0;modelo[i]!='\0';i++) ;
     modelo[i-1]='\0';
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o responsável: ");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     fgets(responsavel, 50, stdin);
 
     for(i=0;responsavel[i]!='\0';i++);
@@ -533,7 +636,10 @@ int adicionarVec() {
 
     fprintf(arquivo, "%s, %s, %s\n", placa, modelo, responsavel);
     fclose(arquivo);
+
+    color(FOREGROUND_GREEN);
     printf("Veículo da placa %s foi adicionado ao banco de dados!\n", placa);
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 }
 
 int contarVeiculo(void) {
@@ -567,13 +673,17 @@ int consultarCadaVec(void) {
     int iRetornado = contarVeiculo(); /*Esse é o iRetornado, ou seja, a quantidade de linhas da função contarVeiculo. Com ela, podemos saber quantas linhas têm logo de cara.*/
     char stop_reason;
 
-    printf("\n======================\n");
-    printf("Tabela dos Veículos!\n");
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    printf(" _________________________________________\n");
+    printf("[_____________Tela de Veículos____________]\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
     /*Essa parte é capaz de ler um determinado arquivo .csv. Se o arquivo não existir (tiver com o nome errado), ele retorna que não conseguiu abrir.*/
     FILE *statsFile= fopen("tabela_veiculos.csv", "r");
     if (statsFile==NULL) {
+        color(FOREGROUND_RED);
         printf("Error: could not open file!");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         exit(-1);
     }
 
@@ -581,7 +691,8 @@ int consultarCadaVec(void) {
 	while (i<iRetornado-1) {
 
         fgets(buffer, sizeof(buffer), statsFile); /*O fgets vai ler a primeira linha do buffer*/
-        
+
+        color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
         datax = strtok(buffer, ","); /*strtok que retorna o array de caracteres em token, com o delimitador sendo o "," do .CSV. Esse valor depois é armazenado no ponteiro datax.*/
         printf(" %s | ", datax);
         
@@ -594,9 +705,13 @@ int consultarCadaVec(void) {
 
         /*datax==NULL com o break é pra terminar o while caso seja encontrado uma linha nula (vazia)*/
         /* if (datax==NULL) {break;}*/
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 	}
 
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf("\nTotal de linhas na tabela: %d\n", iRetornado-2);
+    printf("___________________________________________\n\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); 
 }
 
 /*--------------------------------Veiculos(footer)-------------------------------------*/
@@ -734,6 +849,7 @@ void exibirAjuda() {
         scanf("%d", &value);
 
         if (value == EXIT_OPTION) {
+            system("cls");
             break;
         }
 
@@ -776,147 +892,215 @@ int autenticarAcesso() {
     /*Sistema de autenticação*/
     SetConsoleOutputCP(CP_UTF8);
 
-        printf(" .d8888b.  8888888  .d88888b.   .d8888b. \n"); 
-        printf("d88P  Y88b   888   d88P   Y88b d88P  Y88b\n"); 
-        printf("Y88b.        888   888     888 Y88b.     \n"); 
-        printf("  Y888b.     888   888     888   Y888b.  \n"); 
-        printf("     Y88b.   888   888     888      Y88b.\n"); 
-        printf("       888   888   888     888        888\n"); 
-        printf("Y88b  d88P   888   Y88b. .d88P Y88b  d88P\n"); 
-        printf("  Y8888P   8888888   Y88888P     Y8888P \n");
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
+    printf(" .d8888b.  8888888  .d88888b.   .d8888b. \n"); 
+    printf("d88P  Y88b   888   d88P   Y88b d88P  Y88b\n"); 
+    printf("Y88b.        888   888     888 Y88b.     \n"); 
+    printf("  Y888b.     888   888     888   Y888b.  \n"); 
+    printf("     Y88b.   888   888     888      Y88b.\n"); 
+    printf("       888   888   888     888        888\n"); 
+    printf("Y88b  d88P   888   Y88b. .d88P Y88b  d88P\n"); 
+    printf("  Y8888P   8888888   Y88888P     Y8888P \n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
 	while(1) {
 		char login[100];
 		char senha[100];
-
+        color(FOREGROUND_GREEN | FOREGROUND_BLUE);
         printf(" _______________________________________\n");
         printf("Γ__________Tela de autenticação_________ꓶ\n");
         printf("|                                         \n");
         printf("|Login: ");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+
         scanf("%s", login);
+
+        color(FOREGROUND_GREEN | FOREGROUND_BLUE);
         printf("|Senha: ");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+
         scanf("%s", senha);
+
+        color(FOREGROUND_GREEN | FOREGROUND_BLUE);
         printf("L_________________________________________⅃\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
 		if (strcmp(login, "admin") == 0 && strcmp(senha, "admin") == 0) {
 			break;
 		} else {
-			printf("Login ou senha incorretos! Tente novamente!\n");
+            color(FOREGROUND_RED);
+			printf("\nLogin ou senha incorretos! Tente novamente!\n");
             printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n");
+            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 		}
 	}
+}
+
+void SwitchDeOpcoes(int subOpcao, int programaFuncionando) {
+    switch (subOpcao) {
+        case -1:
+            system("cls");
+            autenticarAcesso();
+            break;
+        case 0: 
+            programaFuncionando = !programaFuncionando;
+            break;
+        case 3:
+            system("cls");
+            consulta();
+            break;
+        case 4:
+            system("cls");
+            adicionarFunc();
+            break;
+        case 5:
+            system("cls");
+            novaEdicao(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
+            break;
+        case 6:
+            system("cls");
+            deletarColaborador();
+            break;
+        case 7:
+            system("cls");
+            deleteAllWorkers();
+            break;
+        case 8:
+            system("cls");
+            consultarCadaVec();
+            break;
+        case 9:
+            system("cls");
+            adicionarVec();
+            break;
+        case 10:
+            system("cls");
+            novaEdicaoVeiculo(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
+            break;
+        case 11:
+            system("cls");
+            excluirVeiculo();
+            break;
+        case 12:
+            system("cls");
+            delAllVehicles();
+            break;
+        case 13:
+            system("cls");
+            SetConsoleOutputCP(CP_UTF8);
+            exibirAjuda();
+            break;
+        default:
+            system("cls");
+            color(FOREGROUND_RED);
+            printf("A opção em questão não está programada em nosso sistema! Digite outra alternativa\n");
+            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+            break;      
+    }
 }
 
 int main(void) {
     SetConsoleOutputCP(CP_UTF8);
     autenticarAcesso();
-   
-   /*limpar a commmand-line*/
-	system("cls");
 
-   /*painel do administrador(a) que fiz, com as suas determinadas funcionalidades.*/
+    int opcoesValidas[] = {-1, 0, 1, 2, 13};
+
+    /*limpar a commmand-line*/
+    system("cls");
+
+    /*painel do administrador(a) que fiz, com as suas determinadas funcionalidades.*/
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf(" ______________________________________\n");
     printf("Γ__________Tela de boas-vindas_________ꓶ\n");
     printf("\nAdministrador(a) autenticado com sucesso!!\n\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     
     int num, subOpcao;
-    int programaFuncionando=1;
+    int programaFuncionando = 1;
 
-	while (programaFuncionando) {
-		printf("____________________________________________\n"
-        "     __  __     ___     _  _     _   _  \n"
-        "    |  \\/  |   | __|   | \\| |   | | | | \n"
-        "    | |\\/| |   | _|    | .` |   | |_| | \n"
-        "    |_|  |_|   |___|   |_|\\_|    \\___/ ");
+    while (programaFuncionando) {
+        color(FOREGROUND_GREEN | FOREGROUND_BLUE);
+        printf("============================================\n"
+               "     __  __     ___     _  _     _   _  \n"
+               "    |  \\/  |   | __|   | \\| |   | | | | \n"
+               "    | |\\/| |   | _|    | .` |   | |_| | \n"
+               "    |_|  |_|   |___|   |_|\\_|    \\___/ \n"
+               "============================================\n");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+        
+        color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+        printf("O que gostaria de acessar agora? \n\n"
+               "<o> -1 para retornar a tela de login\n"
+               "<o>  0 para finalizar o programa\n"
+               "<o>  1 para opções de colaboradores\n"
+               "<o>  2 para opções de veículos\n"
+               "<o>  13 para menu de ajuda\n"); 
 
-        printf("\n============================================\nO que gostaria de acessar agora? \n<o>-1 para retornar a tela de login"
-        "\n<o> 0 para finalizar o programa\n<o> 1 para opções de colaboradores\n<o> 2 para opções de veículos\n<o> 13 para menu de ajuda\n");
+        color(FOREGROUND_GREEN | FOREGROUND_BLUE);
+        printf("\nOpção escolhida: ");
+        color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
-        printf("Opção escolhida: \n");
-		scanf("%d", &num);
+        scanf("%d", &num);
 
-        if(num==1){
-            printf("<o> 3 para consultar a tabela dos colaboradores\n"
+        // Verificar se a opção é válida
+        int opcaoValida = 0;
+        for (int i = 0; i < sizeof(opcoesValidas) / sizeof(opcoesValidas[0]); i++) {
+            if (num == opcoesValidas[i]) {
+                opcaoValida = 1;
+                break;
+            }
+        }
+
+        if (!opcaoValida) {
+            system("cls");
+            color(FOREGROUND_RED);
+            printf("A opção em questão não está programada em nosso sistema! Digite outra alternativa\n");
+            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+        } else if (num == 1) {
+            color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf("\n<o> 3 para consultar a tabela dos colaboradores\n"
             "<o> 4 para adicionar um colaborador\n"
             "<o> 5 para editar um colaborador\n"
             "<o> 6 para deletar colaborador\n"
             "<o> 7 para deletar TODOS os colaboradores\n");
-            printf("Opção escolhida: \n");
+            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+
+            color(FOREGROUND_GREEN | FOREGROUND_BLUE);
+            printf("\nOpção escolhida: ");
+            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
             scanf("%d", &subOpcao);
-        }else if(num==2){
-            printf("<o> 8 para consultar a tabela dos veículos\n"
+            SwitchDeOpcoes(subOpcao, programaFuncionando);
+        } else if (num == 2) {
+            color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf("\n<o> 8 para consultar a tabela dos veículos\n"
             "<o> 9 para adicionar um veículo\n"
             "<o> 10 para editar um veículo\n"
             "<o> 11 para deletar veículo\n"
             "<o> 12 para deletar TODOS os veículos\n");
-            printf("Opção escolhida: \n");
+
+            color(FOREGROUND_GREEN | FOREGROUND_BLUE);
+            printf("\nOpção escolhida: \n");
+            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
             scanf("%d", &subOpcao);
-        }else if(num!=-1&&num!=0&&num!=1&&num!=2){
-            printf("Escolha dentre as opções listadas.\n");
-            printf("Opção escolhida: \n");
-            scanf("%d", &subOpcao);
+            SwitchDeOpcoes(subOpcao, programaFuncionando);
+        } else {
+            color(FOREGROUND_RED);
+            printf("A opção em questão não está programada em nosso sistema! Digite outra alternativa\n");
+            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+        }
+    
+        if (num == -1 || num == 13) { 
+            subOpcao = num;
+            SwitchDeOpcoes(subOpcao, programaFuncionando);
         }
 
-        switch (subOpcao) {
-            case -1:
-                system("cls");
-                autenticarAcesso();
-                break;
-            case 0: 
-                programaFuncionando=!programaFuncionando;/*C ou ~C – lógica matemática*/
-                break;
-            case 3:
-                system("cls");
-                consulta();
-                break;
-            case 4:
-                system("cls");
-                adicionarFunc();
-                break;
-            case 5:
-                system("cls");
-                novaEdicao(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
-                break;
-            case 6:
-                system("cls");
-                deletarColaborador();
-                break;
-            case 7:
-                system("cls");
-                deleteAllWorkers();
-                break;
-            case 8:
-                system("cls");
-                consultarCadaVec();
-                break;
-            case 9:
-                system("cls");
-                adicionarVec();
-                break;
-            case 10:
-                system("cls");
-                novaEdicaoVeiculo(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
-                break;
-            case 11:
-                system("cls");
-                excluirVeiculo();
-                break;
-            case 12:
-                system("cls");
-                delAllVehicles();
-                break;
-            case 13:
-                system("cls");
-                SetConsoleOutputCP(CP_UTF8);
-                exibirAjuda();
-                break;
-            default:
-                system("cls");
-                printf("A opção em questão não está programada em nosso sistema! Digite outra alternativa\n");
-                break;           
+        if(num == 0) {
+            programaFuncionando = !programaFuncionando;
+            break;
         }
-		
-	}
+    }
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("\n======================\n");
+    color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     return 0;
 }

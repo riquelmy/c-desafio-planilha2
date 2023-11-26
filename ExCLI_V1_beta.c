@@ -778,7 +778,7 @@ void exibirAjuda() {
         "3. Consultar\n",
         "4. Editar\n",
         "5. Finalizar Programa\n",
-        "6. Retorna Menu\n",
+        "6. Retorna Tela De Login\n",
         "\n",
         NULL
     };
@@ -821,7 +821,7 @@ void exibirAjuda() {
         },
         // 6. Retorna Menu
         {
-            "- Retorna para o menu do nosso sistema de consulta ABC.\n"
+            "- Retorna para a tela de login do nosso sistema de consulta SIOS.\n"
         },
     };
 

@@ -311,8 +311,8 @@ int consulta(void) {
     int iRetornado = contarconsulta(); /*Esse é o iRetornado, ou seja, a quantidade de linhas da função contarconsulta. Com ela, podemos saber quantas linhas têm logo de cara.*/
     char stop_reason;
 
-    printf("\n======================\n");
-    printf("Tabela dos Colaboradores!\n");
+    printf(" ________________________________________\n");
+    printf("[__________Tela de Colaboradores_________]\n");
 
     /*Essa parte é capaz de ler um determinado arquivo .csv. Se o arquivo não existir (tiver com o nome errado), ele retorna que não conseguiu abrir.*/
     FILE *statsFile= fopen("tabela_colaboradores.csv", "r");
@@ -345,6 +345,7 @@ int consulta(void) {
         /* if (datax==NULL) {break;}*/
 	}
     printf("\nTotal de linhas na tabela: %d\n", iRetornado-2);
+    printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n");
    
 
 }			  
@@ -774,24 +775,35 @@ void exibirAjuda() {
 int autenticarAcesso() {
     /*Sistema de autenticação*/
     SetConsoleOutputCP(CP_UTF8);
+
+        printf(" .d8888b.  8888888  .d88888b.   .d8888b. \n"); 
+        printf("d88P  Y88b   888   d88P   Y88b d88P  Y88b\n"); 
+        printf("Y88b.        888   888     888 Y88b.     \n"); 
+        printf("  Y888b.     888   888     888   Y888b.  \n"); 
+        printf("     Y88b.   888   888     888      Y88b.\n"); 
+        printf("       888   888   888     888        888\n"); 
+        printf("Y88b  d88P   888   Y88b. .d88P Y88b  d88P\n"); 
+        printf("  Y8888P   8888888   Y88888P     Y8888P \n");
+
 	while(1) {
 		char login[100];
 		char senha[100];
 
-        printf("----------Tela de autenticação----------\n");
-		printf("Login: ");
-		scanf("%s", login);
+        printf(" _________________________________________\n");
+        printf("[__________Tela de autenticação_________]\n");
+        printf("|                                         \n");
+        printf("|Login: ");
+        scanf("%s", login);
+        printf("|Senha: ");
+        scanf("%s", senha);
+        printf("|_________________________________________|\n");
 
-        printf("\n----------Tela de autenticação----------\n");
-		printf("Senha: ");
-		scanf("%s", senha);
-
-        printf("\n----------Tela de autenticação----------\n");
-
+        printf("\nAcesso Negado.\n");
 		if (strcmp(login, "admin") == 0 && strcmp(senha, "admin") == 0) {
 			break;
 		} else {
 			printf("Login ou senha incorretos! Tente novamente!\n");
+            printf("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n\n\n");
 		}
 	}
 }
@@ -804,24 +816,25 @@ int main(void) {
 	system("cls");
 
    /*painel do administrador(a) que fiz, com as suas determinadas funcionalidades.*/
-    printf("\n===================\n");
-    printf("Tela de boas-vindas\nAdministrador(a) autenticado com sucesso!!\n\n");
+    printf(" ______________________________________\n");
+    printf("[__________Tela de boas-vindas_________]\n");
+    printf("\nAdministrador(a) autenticado com sucesso!!\n\n");
     
     int num;
     int programaFuncionando=1;
 
 	while (programaFuncionando) {
-		printf("\n===================\n"
-        "Alternativas do menu:"
-        "\n-> -1 Retornar para o menu"
-        "\n->  0 Finalizar programa"
-        "\n->  1 Consultar a tabela dos colaboradores"
-        "\n->  2 Adicionar um colaborador"
-        "\n->  3 Editar uma linha"
-        "\n->  4 Deletar colaborador"
-        "\n-> 60 Ajuda"
-        "\n===================\n");
+		printf("____________________________________________\n");
+        printf("     __  __     ___     _  _     _   _  \n");
+        printf("    |  \\/  |   | __|   | \\| |   | | | | \n");
+        printf("    | |\\/| |   | _|    | .` |   | |_| | \n");
+        printf("    |_|  |_|   |___|   |_|\\_|    \\___/ ");
 
+        printf("\n============================================\nO que gostaria de acessar agora?: \n<o>-1 para retornar a tela de boas-vindas"
+        "\n<o> 0 para finalizar o programa\n<o> 1 para consultar a tabela dos Veículos"
+        "\n<o> 2 para adicionar um veículo"
+        "\n<o> 3 para editar uma linha\n<o> 4 para deletar veículo\n============================================\n");
+        printf("Opção escolhida: ");
 		scanf("%d", &num);
 
       switch (num) {

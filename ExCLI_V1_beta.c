@@ -789,16 +789,15 @@ int autenticarAcesso() {
 		char login[100];
 		char senha[100];
 
-        printf(" _________________________________________\n");
-        printf("[__________Tela de autenticação_________]\n");
+        printf(" _______________________________________\n");
+        printf("Γ__________Tela de autenticação_________ꓶ\n");
         printf("|                                         \n");
         printf("|Login: ");
         scanf("%s", login);
         printf("|Senha: ");
         scanf("%s", senha);
-        printf("|_________________________________________|\n");
+        printf("L_________________________________________⅃\n");
 
-        printf("\nAcesso Negado.\n");
 		if (strcmp(login, "admin") == 0 && strcmp(senha, "admin") == 0) {
 			break;
 		} else {
@@ -817,89 +816,107 @@ int main(void) {
 
    /*painel do administrador(a) que fiz, com as suas determinadas funcionalidades.*/
     printf(" ______________________________________\n");
-    printf("[__________Tela de boas-vindas_________]\n");
+    printf("Γ__________Tela de boas-vindas_________ꓶ\n");
     printf("\nAdministrador(a) autenticado com sucesso!!\n\n");
     
-    int num;
+    int num, subOpcao;
     int programaFuncionando=1;
 
 	while (programaFuncionando) {
-		printf("____________________________________________\n");
-        printf("     __  __     ___     _  _     _   _  \n");
-        printf("    |  \\/  |   | __|   | \\| |   | | | | \n");
-        printf("    | |\\/| |   | _|    | .` |   | |_| | \n");
-        printf("    |_|  |_|   |___|   |_|\\_|    \\___/ ");
+		printf("____________________________________________\n"
+        "     __  __     ___     _  _     _   _  \n"
+        "    |  \\/  |   | __|   | \\| |   | | | | \n"
+        "    | |\\/| |   | _|    | .` |   | |_| | \n"
+        "    |_|  |_|   |___|   |_|\\_|    \\___/ ");
 
-        printf("\n============================================\nO que gostaria de acessar agora?: \n<o>-1 para retornar a tela de boas-vindas"
-        "\n<o> 0 para finalizar o programa\n<o> 1 para consultar a tabela dos Veículos"
-        "\n<o> 2 para adicionar um veículo"
-        "\n<o> 3 para editar uma linha\n<o> 4 para deletar veículo\n============================================\n");
-        printf("Opção escolhida: ");
+        printf("\n============================================\nO que gostaria de acessar agora? \n<o>-1 para retornar a tela de login"
+        "\n<o> 0 para finalizar o programa\n<o> 1 para opções de colaboradores\n<o> 2 para opções de veículos\n<o> 13 para menu de ajuda\n");
+
+        printf("Opção escolhida: \n");
 		scanf("%d", &num);
 
-      switch (num) {
-         case -1:
-            system("cls");
-            printf("\n===================\n");
-            printf("Seja bem-vindo ao sistema de consulta ABC!\n\n");
-            break;
-         case 0: 
-            programaFuncionando=!programaFuncionando;/*C ou ~C – lógica matemática*/
-            break;
-         case 1:
-            system("cls");
-            consulta();
-            break;
-         case 2:
-            system("cls");
-            adicionarFunc();
-            break;
-         case 3:
-            system("cls");
-            novaEdicao(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
-            break;
-         case 4:
-            system("cls");
-            deletarColaborador();
-            break;
-         case 11:
-            system("cls");
-            consultarCadaVec();
-            break;
-         case 22:
-            system("cls");
-            adicionarVec();
-            break;
-         case 33:
-            system("cls");
-            novaEdicaoVeiculo(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
-            break;
-         case 44:
-            system("cls");
-            excluirVeiculo();
-            break;
-        case 5:
-            system("cls");
-            deleteAllWorkers();
-            break;
-        case 55:
-            system("cls");
-            delAllVehicles();
-            break;
-        case 60:
-            system("cls");
-            SetConsoleOutputCP(CP_UTF8);
-            exibirAjuda();
-            break;
-        default:
-            system("cls");
-            printf("A opção em questão não está programada em nosso sistema! Digite outra alternativa\n");
-            break;           
-      }
+        if(num==1){
+            printf("<o> 3 para consultar a tabela dos colaboradores\n"
+            "<o> 4 para adicionar um colaborador\n"
+            "<o> 5 para editar um colaborador\n"
+            "<o> 6 para deletar colaborador\n"
+            "<o> 7 para deletar TODOS os colaboradores\n");
+            printf("Opção escolhida: \n");
+            scanf("%d", &subOpcao);
+        }else if(num==2){
+            printf("<o> 8 para consultar a tabela dos veículos\n"
+            "<o> 9 para adicionar um veículo\n"
+            "<o> 10 para editar um veículo\n"
+            "<o> 11 para deletar veículo\n"
+            "<o> 12 para deletar TODOS os veículos\n");
+            printf("Opção escolhida: \n");
+            scanf("%d", &subOpcao);
+        }else if(num!=-1&&num!=0&&num!=1&&num!=2){
+            printf("Escolha dentre as opções listadas.\n");
+            printf("Opção escolhida: \n");
+            scanf("%d", &subOpcao);
+        }
+
+        switch (subOpcao) {
+            case -1:
+                system("cls");
+                autenticarAcesso();
+                break;
+            case 0: 
+                programaFuncionando=!programaFuncionando;/*C ou ~C – lógica matemática*/
+                break;
+            case 3:
+                system("cls");
+                consulta();
+                break;
+            case 4:
+                system("cls");
+                adicionarFunc();
+                break;
+            case 5:
+                system("cls");
+                novaEdicao(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
+                break;
+            case 6:
+                system("cls");
+                deletarColaborador();
+                break;
+            case 7:
+                system("cls");
+                deleteAllWorkers();
+                break;
+            case 8:
+                system("cls");
+                consultarCadaVec();
+                break;
+            case 9:
+                system("cls");
+                adicionarVec();
+                break;
+            case 10:
+                system("cls");
+                novaEdicaoVeiculo(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
+                break;
+            case 11:
+                system("cls");
+                excluirVeiculo();
+                break;
+            case 12:
+                system("cls");
+                delAllVehicles();
+                break;
+            case 13:
+                system("cls");
+                SetConsoleOutputCP(CP_UTF8);
+                exibirAjuda();
+                break;
+            default:
+                system("cls");
+                printf("A opção em questão não está programada em nosso sistema! Digite outra alternativa\n");
+                break;           
+        }
 		
 	}
-   
-   printf("\n======================\n");
-
-   return 0;
+    printf("\n======================\n");
+    return 0;
 }

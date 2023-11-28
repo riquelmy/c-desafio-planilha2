@@ -136,8 +136,7 @@ int deletarColaborador() {
 
     /*Conta todas as linhas do arquivo*/
     char linhas[MAX_LEN][MAX_LEN];
-    int numLinhas = 0;
-
+    int numLinhas = 0; 
     while (lerLinha(arquivo, linhas[numLinhas], MAX_LEN) && numLinhas < MAX_LEN) {
         numLinhas++;
     }
@@ -156,30 +155,49 @@ int deletarColaborador() {
 
     /*output do conteúdo da tabela*/
     for (int i = 0; i < numLinhas; i++) {
-        printf("%d: %s\n", i + 1, linhas[i]);
+        if (i == 0) {
+            color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf("     --------------------------\n");
+            printf("    | %s |\n", linhas[i]);
+            printf("     --------------------------\n");
+            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+        } else {
+            if (i != numLinhas) {
+                printf("(%d) | %s\n", i, linhas[i]);
+            } else {
+                printf(" ");
+            }
+        }
     }
 
     /*entrada int para deletar uma linha. as outras funções tem estrutura parecida.*/
     int linhaSelecionada;
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
-    printf("Digite o número da linha que deseja deletar: ");
+    printf("\nDigite o número da linha que deseja deletar: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
 
-    if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+    // backup em caso de digitar linha errada
+    for (int i = 0, j = 0; i < numLinhas; i++) { 
+        strcpy(linhas[j], linhas[i]);
+        j++;
+        
+    }
+
+    if (linhaSelecionada < 2 || linhaSelecionada > numLinhas) {
+        for (int i = 0; i < numLinhas; i++) {
+            escreverLinha(arquivo, linhas[i]);
+        }
+        fclose(arquivo);
+
         color(FOREGROUND_RED);
-        fprintf(stderr, "Linha inválida.\n");
+        fprintf(stderr, "Linha inválida.\n\n");
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
     /*Depois copia as linhas que não precisam ser excluidas para o array bidimensional linhas*/
-    for (int i = 0, j = 0; i < numLinhas; i++) {
-        if (i != linhaSelecionada - 1) {
-            strcpy(linhas[j], linhas[i]);
-            j++;
-        }
-    }
+  
 
     /*atualiza o total de linhas da plannilha*/
     numLinhas--;
@@ -193,7 +211,7 @@ int deletarColaborador() {
     fclose(arquivo);
 
     color(FOREGROUND_GREEN);
-    printf("Linha deletada com sucesso do arquivo tabela_colaboradores.csv.\n");
+    printf("\nLinha deletada com sucesso do arquivo tabela_colaboradores.csv.\n\n");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
     return 0;
@@ -240,9 +258,9 @@ int novaEdicao() {
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
 
-    if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+    if (linhaSelecionada < 2 || linhaSelecionada > numLinhas) {
         color(FOREGROUND_RED);
-        fprintf(stderr, "Linha inválida.\n");
+        fprintf(stderr, "Linha inválida.\n\n");
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
@@ -284,7 +302,7 @@ int novaEdicao() {
     fclose(arquivo);
 
     color(FOREGROUND_GREEN); // Volta para a cor padrão
-    printf("Dados modificados com sucesso no arquivo tabela_colaboradores.csv.\n");
+    printf("Dados modificados com sucesso no arquivo tabela_colaboradores.csv.\n\n");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
     return 0;
@@ -474,25 +492,49 @@ int excluirVeiculo() {
         return 1;
     }
 
+    // backup em caso de digitar linha errada
+    for (int i = 0, j = 0; i < numLinhas; i++) { 
+        strcpy(linhas[j], linhas[i]);
+        j++;
+        
+    }
+    
     for (int i = 0; i < numLinhas; i++) {
-        printf("%d: %s\n", i + 1, linhas[i]);
+        if (i == 0) {
+            color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf("     -----------------------------\n");
+            printf("    | %s |\n", linhas[i]);
+            printf("     -----------------------------\n");
+            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+        } else {
+            if (i != numLinhas) {
+                printf("(%d) | %s\n", i, linhas[i]);
+            } else {
+                printf(" ");
+            }
+        }
     }
 
     int linhaSelecionada;
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
-    printf("Digite o número da linha que deseja deletar: ");
+    printf("\nDigite o número da linha que deseja deletar: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
 
-    if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+    if (linhaSelecionada < 2 || linhaSelecionada > numLinhas) {   
+        for (int i = 0; i < numLinhas; i++) {
+            escreverRowVeiculo(arquivo, linhas[i]);
+        }
+        fclose(arquivo);
+
         color(FOREGROUND_RED);
-        fprintf(stderr, "Linha inválida.\n");
+        fprintf(stderr, "Linha inválida.\n\n");
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
 
     for (int i = 0, j = 0; i < numLinhas; i++) {
-        if (i != linhaSelecionada - 1) {
+        if (i != linhaSelecionada + 1) {
             strcpy(linhas[j], linhas[i]);
             j++;
         }
@@ -506,7 +548,7 @@ int excluirVeiculo() {
 
     fclose(arquivo);
     color(FOREGROUND_GREEN); // Volta para a cor padrão
-    printf("Linha deletada com sucesso do arquivo tabela_veiculos.csv.\n");
+    printf("\nLinha deletada com sucesso do arquivo tabela_veiculos.csv.\n\n");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
 
     return 0;

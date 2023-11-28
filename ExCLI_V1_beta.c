@@ -717,7 +717,8 @@ int consultarCadaVec(void) {
 /*--------------------------------Veiculos(footer)-------------------------------------*/
 
 /******************************* Função Ajuda (feito por Kelvin) ***************************************************/
-#define SIZE_ARRAY_OPTIONS 6
+#define SIZE_ARRAY_OPTIONS 7
+#define SIZE_EACH_ARRAY_OPTIONS 15
 #define EXIT_OPTION 0    
 #define TRUE 1
 #define FALSE 0
@@ -779,6 +780,8 @@ void exibirAjuda() {
         "4. Editar\n",
         "5. Finalizar Programa\n",
         "6. Retorna Tela De Login\n",
+        "___________\n",
+        "7. Avisos!!\n",
         "\n",
         NULL
     };
@@ -787,7 +790,7 @@ void exibirAjuda() {
         "Digite o número correspondente à operação desejada ou 0 para sair da seção ajuda: ",
     };
 
-    const char *moreInformationOptions[SIZE_ARRAY_OPTIONS][4] = {
+    const char *moreInformationOptions[SIZE_ARRAY_OPTIONS][SIZE_EACH_ARRAY_OPTIONS] = {
         // 1. Adicionar
         {
             "- Utilize a opção 'Adicionar' para incluir novos registros ao sistema.\n",
@@ -823,11 +826,28 @@ void exibirAjuda() {
         {
             "- Retorna para a tela de login do nosso sistema de consulta SIOS.\n"
         },
+        // 7. Avisos!! 
+        {
+            "- Garanta que todas as planilhas do excel estejam fechadas\n",
+            "  antes de modificar/editar alguma delas.\n",
+            "\n",
+            "- Não interrompa, de forma repentina, nenhum processo de manipulação da tabela.\n",
+            "  Caso contrário, o arquivo de edição pode corromper.\n",
+            "\n",
+            "- Caso corrompa, copie as tabelas na pasta backup\n",
+            "  (apesar de uma possível perda de dados, o programa voltará a funcionar normalmente).\n",
+            "\n",
+            "- Ultilize o software exatamente da forma que foi programado, ou seja, para evitar transtornos,\n",
+            "  não ultilize teclas de atalhos como por exemplo, CTRL+C e CTRL+V, além de\n",
+            "  numeros seguido de '.' (ponto) ou somente '.'(ponto) durante a execução do programa\n",
+            "  pois, encadeará a mau funcionamento do programa ou o fechamento forçado do mesmo,\n",
+            "  corrompendo assim os arquivos da planilha.\n"
+        },
     };
 
     const char errorWhenChoosingOptions[] =  {"Essa opção não existe em nosso programa.\n"};
 
-    int options[SIZE_ARRAY_OPTIONS] = {1, 2, 3, 4, 5, 6}; // 0 a 5
+    int options[SIZE_ARRAY_OPTIONS] = {1, 2, 3, 4, 5, 6, 7}; // 0 a 6
 
     int value;
     int valueFound = FALSE;
@@ -841,7 +861,11 @@ void exibirAjuda() {
     }
 
     for (int i = 0; optionsList[i] != NULL; ++i) {
-        printWithColor(optionsList[i], 14, 8); 
+        if (i == 9 || i == 10) {
+            printWithColor(optionsList[i], 14, 12); 
+        } else {
+            printWithColor(optionsList[i], 14, 8);  
+        }
     }
 
     while (1) {
@@ -859,10 +883,14 @@ void exibirAjuda() {
 
                 formatDesign_1(14);
                 printf("\n");
-
+ 
                 int j;
-                for (j = 0; j < 4 && moreInformationOptions[i][j] != NULL; j++) {
-                    printWithColor(moreInformationOptions[i][j], 14, 14);
+                for (j = 0; j < SIZE_EACH_ARRAY_OPTIONS && moreInformationOptions[i][j] != NULL; j++) {
+                    if (value == 7) {
+                        printWithColor(moreInformationOptions[i][j], 14, 12);
+                    } else {
+                        printWithColor(moreInformationOptions[i][j], 14, 14);
+                    }
                 }
                 // Se o número de linhas impressas não for igual a 4, não imprimi nada
                 for (int k = 0; k < (4 - j); k++) {

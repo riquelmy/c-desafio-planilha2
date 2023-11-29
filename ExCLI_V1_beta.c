@@ -156,15 +156,19 @@ int deletarColaborador() {
     /*entrada int para deletar uma linha. as outras funções tem estrutura parecida.*/
     int linhaSelecionada;
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
-    printf("Digite o número da linha que deseja deletar: ");
+
+
+    while(1) {
+    color(FOREGROUND_GREEN | FOREGROUND_BLUE);    
+    printf("Digite o número da linha que deseja deletar: ");  
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
-    if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+    if (linhaSelecionada <= 1 || linhaSelecionada > numLinhas) {
         color(FOREGROUND_RED);
         fprintf(stderr, "Linha inválida.\n");
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-        return 1;
     }
+    else {
     /*Depois copia as linhas que não precisam ser excluidas para o array bidimensional linhas*/
     for (int i = 0, j = 0; i < numLinhas; i++) {
         if (i != linhaSelecionada - 1) {
@@ -184,9 +188,12 @@ int deletarColaborador() {
     printf("Linha deletada com sucesso do arquivo tabela_colaboradores.csv.\n");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     return 0;
+    }
+    }
 }
 
 int novaEdicao() {
+    int j;
     FILE *arquivo = fopen("tabela_colaboradores.csv", "r+");
     if (arquivo == NULL) {
         color(FOREGROUND_RED);
@@ -239,22 +246,35 @@ int novaEdicao() {
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o novo nome: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-    scanf("%s", novoNome);
+
+    fgets(novoNome, 50, stdin);
+    fgets(novoNome, 50, stdin);
+    for (j=0; novoNome[j]!='\0';j++) {;}
+    novoNome[j-1]='\0';
+
+
+
 
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite a nova função: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-    scanf("%s", novaFuncao);
+    fgets(novaFuncao, 50, stdin);
+    for (j=0; novaFuncao[j]!='\0';j++) {;}
+    novaFuncao[j-1]='\0';
 
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite novo id: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-    scanf("%s", novoId);
+    fgets(novoId, 50, stdin);
+    for (j=0; novoId[j]!='\0';j++) {;}
+    novoId[j-1]='\0';
 
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite nova idade: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-    scanf("%s", novaIdade);
+    fgets(novaIdade, 50, stdin);
+    for (j=0; novaIdade[j]!='\0';j++) {;}
+    novaIdade[j-1]='\0';
 
    /*limpar a linha anterior, é preciso tomar muito cuidado para não interromper aqui o processo na hora de editar. se não, limpa toda a tabela, e aí tem que pegar do backup*/
     strcpy(linhas[linhaSelecionada - 1], ""); 
@@ -459,16 +479,18 @@ int excluirVeiculo() {
         printf("%d: %s\n", i + 1, linhas[i]);
     }
     int linhaSelecionada;
+
+    while(1) {
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o número da linha que deseja deletar: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
-    if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
+    if (linhaSelecionada <= 1 || linhaSelecionada > numLinhas) {
         color(FOREGROUND_RED);
         fprintf(stderr, "Linha inválida.\n");
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-        return 1;
     }
+    else {
     for (int i = 0, j = 0; i < numLinhas; i++) {
         if (i != linhaSelecionada - 1) {
             strcpy(linhas[j], linhas[i]);
@@ -484,6 +506,8 @@ int excluirVeiculo() {
     printf("Linha deletada com sucesso do arquivo tabela_veiculos.csv.\n");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     return 0;
+    }
+    }
 }
 
 int novaEdicaoVeiculo() {
@@ -537,19 +561,25 @@ int novaEdicaoVeiculo() {
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite a nova placa: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-    scanf("%s", novaPlaca);
+
+    fgets(novaPlaca, 50, stdin);
+    fgets(novaPlaca, 50, stdin);
+    for (j=0; novaPlaca[j]!='\0';j++) {;}
+    novaPlaca[j-1]='\0';
 
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o novo modelo: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-    scanf("%s", novoModelo);
+
+    fgets(novoModelo, 50, stdin);
+    for (j=0; novoModelo[j]!='\0';j++) {;}
+    novoModelo[j-1]='\0';
     
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
     printf("Digite o novo responsável: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+    // fgets(novoResponsavel, 50, stdin);
     fgets(novoResponsavel, 50, stdin);
-    fgets(novoResponsavel, 50, stdin);
-
     for (j=0; novoResponsavel[j]!='\0';j++) {;}
     novoResponsavel[j-1]='\0';
 
@@ -958,11 +988,13 @@ void SwitchDeOpcoes(int subOpcao, int programaFuncionando) {
             break;
         case 5:
             system("cls");
-            novaEdicao(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
+            if(contarconsulta()>2) novaEdicao(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
+            else {printf("Não tem linha na tabela, logo não é possível executar a função!\n");}
             break;
         case 6:
             system("cls");
-            deletarColaborador();
+            if (contarconsulta()>2) deletarColaborador();
+            else {printf("Não tem linha na tabela, logo não é possível executar a função!\n");}
             break;
         case 7:
             system("cls");
@@ -978,11 +1010,13 @@ void SwitchDeOpcoes(int subOpcao, int programaFuncionando) {
             break;
         case 10:
             system("cls");
-            novaEdicaoVeiculo(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
+            if (contarconsulta()>2) novaEdicaoVeiculo(); /*tomar muito cuidado aqui, buga a tabela se der ctrl+c na hora de executar essa função*/
+            else {printf("Não tem linha na tabela, logo não é possível executar a função!\n");}
             break;
         case 11:
             system("cls");
-            excluirVeiculo();
+            if (contarVeiculo()>2) excluirVeiculo();
+            else {printf("Não tem linha na tabela, logo não é possível executar a função!\n");}
             break;
         case 12:
             system("cls");

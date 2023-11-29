@@ -841,8 +841,8 @@ void exibirAjuda() {
             "- Caso corrompa, copie as tabelas na pasta backup\n",
             "  (apesar de uma possível perda de dados, o programa voltará a funcionar normalmente).\n",
             "\n",
-            "- Ultilize o software exatamente da forma que foi programado, ou seja, para evitar transtornos,\n",
-            "  não ultilize teclas de atalhos como por exemplo, CTRL+C e CTRL+V, além de\n",
+            "- Utilize o software exatamente da forma que foi programado, ou seja, para evitar transtornos,\n",
+            "  não utilize teclas de atalhos como por exemplo, CTRL+C e CTRL+V, além de\n",
             "  numeros seguido por '.' (ponto) ou somente '.'(ponto) durante a execução do programa\n",
             "  pois, encadeará o mau funcionamento do programa ou o fechamento forçado do mesmo,\n",
             "  corrompendo assim os arquivos da planilha.\n"

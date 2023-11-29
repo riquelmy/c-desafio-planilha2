@@ -133,18 +133,15 @@ int deletarColaborador() {
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
-
     /*Conta todas as linhas do arquivo*/
     char linhas[MAX_LEN][MAX_LEN];
-    int numLinhas = 0; 
+    int numLinhas = 0;
     while (lerLinha(arquivo, linhas[numLinhas], MAX_LEN) && numLinhas < MAX_LEN) {
         numLinhas++;
     }
-
     /*depois de lido, fecha e abre ele novamente, só que em modo escrita (w), não modo leitura (r)*/
     fclose(arquivo);
     arquivo = fopen("tabela_colaboradores.csv", "w");
-
     /*Trecho para verificar se foi aberto com sucesso, em modo escrita*/
     if (arquivo == NULL) {
         color(FOREGROUND_RED);
@@ -152,68 +149,40 @@ int deletarColaborador() {
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
-
     /*output do conteúdo da tabela*/
     for (int i = 0; i < numLinhas; i++) {
-        if (i == 0) {
-            color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-            printf("     --------------------------\n");
-            printf("    | %s |\n", linhas[i]);
-            printf("     --------------------------\n");
-            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-        } else {
-            if (i != numLinhas) {
-                printf("(%d) | %s\n", i, linhas[i]);
-            } else {
-                printf(" ");
-            }
-        }
+        printf("%d: %s\n", i + 1, linhas[i]);
     }
-
     /*entrada int para deletar uma linha. as outras funções tem estrutura parecida.*/
     int linhaSelecionada;
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
-    printf("\nDigite o número da linha que deseja deletar: ");
+    printf("Digite o número da linha que deseja deletar: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
-
-    // backup em caso de digitar linha errada
-    for (int i = 0, j = 0; i < numLinhas; i++) { 
-        strcpy(linhas[j], linhas[i]);
-        j++;
-        
-    }
-
-    if (linhaSelecionada < 2 || linhaSelecionada > numLinhas) {
-        for (int i = 0; i < numLinhas; i++) {
-            escreverLinha(arquivo, linhas[i]);
-        }
-        fclose(arquivo);
-
+    if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
         color(FOREGROUND_RED);
-        fprintf(stderr, "Linha inválida.\n\n");
+        fprintf(stderr, "Linha inválida.\n");
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
-
     /*Depois copia as linhas que não precisam ser excluidas para o array bidimensional linhas*/
-  
-
+    for (int i = 0, j = 0; i < numLinhas; i++) {
+        if (i != linhaSelecionada - 1) {
+            strcpy(linhas[j], linhas[i]);
+            j++;
+        }
+    }
     /*atualiza o total de linhas da plannilha*/
     numLinhas--;
-
     /*pega o array de caracteres linhas, dá um parse em cada linha salva e escreve no arquivo a mesma*/
     for (int i = 0; i < numLinhas; i++) {
         escreverLinha(arquivo, linhas[i]);
     }
-
     /*fecha a planilha*/
     fclose(arquivo);
-
     color(FOREGROUND_GREEN);
-    printf("\nLinha deletada com sucesso do arquivo tabela_colaboradores.csv.\n\n");
+    printf("Linha deletada com sucesso do arquivo tabela_colaboradores.csv.\n");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-
     return 0;
 }
 
@@ -467,90 +436,53 @@ void escreverRowVeiculo(FILE *arquivo, const char *linha) { /*réplica -> escrev
 /*réplica -> deletarColaborador()*/
 int excluirVeiculo() {
     FILE *arquivo = fopen("tabela_veiculos.csv", "r+");
-
     if (arquivo == NULL) {
         color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo.\n");
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
-
     char linhas[MAX_LEN][MAX_LEN];
     int numLinhas = 0;
-
     while (lerRowVeiculo(arquivo, linhas[numLinhas], MAX_LEN) && numLinhas < MAX_LEN) {
         numLinhas++;
     }
-
     fclose(arquivo);
     arquivo = fopen("tabela_veiculos.csv", "w");
-
     if (arquivo == NULL) {
         color(FOREGROUND_RED);
         fprintf(stderr, "Erro ao abrir o arquivo para escrita.\n");
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
-
-    // backup em caso de digitar linha errada
-    for (int i = 0, j = 0; i < numLinhas; i++) { 
-        strcpy(linhas[j], linhas[i]);
-        j++;
-        
-    }
-    
     for (int i = 0; i < numLinhas; i++) {
-        if (i == 0) {
-            color(FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-            printf("     -----------------------------\n");
-            printf("    | %s |\n", linhas[i]);
-            printf("     -----------------------------\n");
-            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-        } else {
-            if (i != numLinhas) {
-                printf("(%d) | %s\n", i, linhas[i]);
-            } else {
-                printf(" ");
-            }
-        }
+        printf("%d: %s\n", i + 1, linhas[i]);
     }
-
     int linhaSelecionada;
     color(FOREGROUND_GREEN | FOREGROUND_BLUE);
-    printf("\nDigite o número da linha que deseja deletar: ");
+    printf("Digite o número da linha que deseja deletar: ");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
     scanf("%d", &linhaSelecionada);
-
-    if (linhaSelecionada < 2 || linhaSelecionada > numLinhas) {   
-        for (int i = 0; i < numLinhas; i++) {
-            escreverRowVeiculo(arquivo, linhas[i]);
-        }
-        fclose(arquivo);
-
+    if (linhaSelecionada < 1 || linhaSelecionada > numLinhas) {
         color(FOREGROUND_RED);
-        fprintf(stderr, "Linha inválida.\n\n");
+        fprintf(stderr, "Linha inválida.\n");
         color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
         return 1;
     }
-
     for (int i = 0, j = 0; i < numLinhas; i++) {
-        if (i != linhaSelecionada + 1) {
+        if (i != linhaSelecionada - 1) {
             strcpy(linhas[j], linhas[i]);
             j++;
         }
     }
-
     numLinhas--;
-
     for (int i = 0; i < numLinhas; i++) {
         escreverRowVeiculo(arquivo, linhas[i]);
     }
-
     fclose(arquivo);
     color(FOREGROUND_GREEN); // Volta para a cor padrão
-    printf("\nLinha deletada com sucesso do arquivo tabela_veiculos.csv.\n\n");
+    printf("Linha deletada com sucesso do arquivo tabela_veiculos.csv.\n");
     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-
     return 0;
 }
 
@@ -1158,11 +1090,11 @@ int main(void) {
             color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
             scanf("%d", &subOpcao);
             SwitchDeOpcoes(subOpcao, programaFuncionando);
-        } else {
-            color(FOREGROUND_RED);
-            printf("A opção em questão não está programada em nosso sistema! Digite outra alternativa\n");
-            color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
-        }
+        } /*else {*/
+        //     color(FOREGROUND_RED);
+        //     printf("A opção em questãoy não está programada em nosso sistema! Digite outra alternativa\n");
+        //     color(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE); // Volta para a cor padrão
+        // }
     
         if (num == -1 || num == 13) { 
             subOpcao = num;
